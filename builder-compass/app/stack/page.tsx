@@ -8,6 +8,7 @@ import {
   CircleAlert,
   Download,
   ExternalLink,
+  Footprints,
   ListChecks,
   MapPin,
   ShieldCheck,
@@ -196,7 +197,9 @@ export default function StackPage() {
                 <p className="mt-1 text-sm text-muted">{blocks.length} block{blocks.length === 1 ? "" : "s"} across {stats.days} day{stats.days === 1 ? "" : "s"}.</p>
               </div>
               {issues > 0 ? (
-                <span className="rounded-lg bg-warning/10 px-2.5 py-1.5 text-xs font-semibold text-warning-fg">{issues} item{issues === 1 ? "" : "s"} need attention</span>
+                <span className="inline-flex items-center gap-1.5 rounded-lg bg-error/10 px-2.5 py-1.5 text-xs font-semibold text-error-fg"><CircleAlert size={14} aria-hidden />{issues} item{issues === 1 ? "" : "s"} need{issues === 1 ? "s" : ""} attention</span>
+              ) : stats.tight > 0 ? (
+                <span className="inline-flex items-center gap-1.5 rounded-lg bg-warning/10 px-2.5 py-1.5 text-xs font-semibold text-warning-fg"><Footprints size={14} aria-hidden />{stats.tight} tight walk{stats.tight === 1 ? "" : "s"}, under 10 min to spare</span>
               ) : (
                 <span className="inline-flex items-center gap-1.5 rounded-lg bg-success/10 px-2.5 py-1.5 text-xs font-semibold text-success-fg"><ShieldCheck size={14} aria-hidden />All clear</span>
               )}
@@ -223,7 +226,13 @@ export default function StackPage() {
               <Stat
                 label="Needs attention"
                 value={String(issues)}
-                sub={`${stats.tight} tight walk${stats.tight === 1 ? "" : "s"}`}
+                sub={
+                  issues > 0
+                    ? `${stats.conflictPairs} overlap${stats.conflictPairs === 1 ? "" : "s"}, ${stats.notReachable} unreachable`
+                    : stats.tight > 0
+                      ? `+ ${stats.tight} tight walk${stats.tight === 1 ? "" : "s"} to watch`
+                      : "no overlaps or tight walks"
+                }
                 icon={ShieldCheck}
               />
             </div>
@@ -242,13 +251,19 @@ export default function StackPage() {
               >
                 <div className="flex items-center justify-between text-sm font-medium text-ink">
                   {weekdayShort(d.day)}
-                  {d.issues > 0 && (
+                  {d.issues > 0 ? (
                     <span
                       className="h-2 w-2 rounded-full bg-error"
                       role="img"
                       aria-label={`${d.issues} issue${d.issues === 1 ? "" : "s"}`}
                     />
-                  )}
+                  ) : d.tight > 0 ? (
+                    <span
+                      className="h-2 w-2 rounded-full bg-warning"
+                      role="img"
+                      aria-label={`${d.tight} tight walk${d.tight === 1 ? "" : "s"}`}
+                    />
+                  ) : null}
                 </div>
                 <div className="font-mono text-xs text-muted">{dayLabel(d.day).split(", ")[1]}</div>
                 <div className="mt-2 font-mono text-xs text-muted">

@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
 // Convert the official-style re:Invent 2026 CSV export into the JSON shapes
-// Builder Compass consumes (data/sessions.json + data/venues.json).
+// Builder Compass consumes (public/data/sessions.json + data/venues.json).
 //
 // Usage:
 //   npm run convert-data -- path/to/reinvent2026_sessions.csv
@@ -239,9 +239,13 @@ const edges = WALK_EDGES.filter(
 ).map(([from, to, minutes]) => ({ from, to, minutes }));
 
 fs.mkdirSync(dataDir, { recursive: true });
+// The catalog is served as a static file (fetched by the client, imported by
+// server components), so it lives in public/ and is written minified.
+const publicDataDir = path.join(dataDir, "..", "public", "data");
+fs.mkdirSync(publicDataDir, { recursive: true });
 fs.writeFileSync(
-  path.join(dataDir, "sessions.json"),
-  JSON.stringify(sessions, null, 2)
+  path.join(publicDataDir, "sessions.json"),
+  JSON.stringify(sessions)
 );
 fs.writeFileSync(
   path.join(dataDir, "venues.json"),

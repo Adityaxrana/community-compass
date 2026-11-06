@@ -57,7 +57,11 @@ export function feasibilityFor(
   }
 
   let feasibility: Feasibility;
-  if (gap >= walk + BUFFER_MINUTES) {
+  if (walk === 0) {
+    // Same venue: back-to-back sessions are fine (sessions end early enough
+    // to change rooms); only an overlap is a problem, and conflicts cover it.
+    feasibility = gap >= 0 ? "comfortable" : "not-happening";
+  } else if (gap >= walk + BUFFER_MINUTES) {
     feasibility = "comfortable";
   } else if (gap >= walk) {
     feasibility = "tight";

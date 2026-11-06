@@ -55,12 +55,14 @@ Do not run `npm run build` while a dev or start server is running. They share `.
 ## How it works
 
 - **Times** are formatted from the catalog's Pacific offset, so everyone sees Las Vegas time whatever their timezone. Custom blocks are entered in Las Vegas time.
-- **Walk rating:** Reachable if the break is at least the walk plus 10 minutes; Tight if it covers the walk; Not reachable if shorter. Walk times in `data/venues.json` are estimates.
+- **Walk rating:** Reachable if the break is at least the walk plus 10 minutes; Tight if it covers the walk; Not reachable if shorter. Back-to-back sessions in the same venue are Reachable. Walk times in `data/venues.json` are estimates.
+- **Planner:** fills each day in two passes: first only sessions whose walks keep the full 10-minute buffer, then tight walks if slots remain. The Stack page flags any tight walks instead of showing "All clear".
 - **Drop-in items** (parties, expo, featured experiences) never create conflicts. The planner skips them unless you turn on events, and always skips all-day items.
 - **Repeat sessions** run under several codes (`-R`, `-R1`, ...). The planner, gap suggestions and AI replies never add the same session twice.
 - **Bring your own AI:** `/plan` builds a prompt from your profile and the best candidates. You paste it into any assistant, then paste the JSON reply back. Codes are validated against the catalog and overlaps are skipped.
 - **Venue plans** (`lib/venuePlans.ts`) are simplified layouts condensed from published floor plans, not survey-accurate. Rooms are linked to sessions by matching room names; the first matching room wins.
 - **Storage:** your plan, notes, ratings and preferences live in `localStorage` (key `builder-compass-v2`). They are per browser and per device.
+- **Removing is safe:** taking a session out of the stack keeps its notes and rating (they come back if you add it again, and stay in the trip report). Every removal shows an Undo toast (also Cmd/Ctrl+Z).
 
 ## Project structure
 
@@ -69,7 +71,8 @@ app/                     pages: catalog, session/[id], plan, stack, map, notes
 components/              shared UI; VenueIsoPlan is the isometric venue renderer
 components/ui/           Button, Card, Chip, Segmented, EmptyState, PageHeader
 components/plan/         ProfilePanel, AiBridge
-lib/data.ts              data access layer: the swap point for a backend
+lib/data.ts              client data access: fetches the catalog once (swap point for a backend)
+lib/data.server.ts       server-only catalog access for the home and session pages
 lib/schedule.ts          blocks, conflicts, walk fit, gaps, stats, suggestions
 lib/planner.ts           week planner, AI prompt builder and reply parser
 lib/search.ts            Fuse index, filters, sentence parser
@@ -79,7 +82,8 @@ lib/venuePlans.ts        isometric room layouts per venue
 lib/walkGraph.ts         walk-time lookup and feasibility
 lib/catalogView.ts       catalog filters and sort, kept across navigation
 lib/ics.ts, markdown.ts  calendar and Markdown export
-data/                    sessions.json, venues.json (generated)
+public/data/sessions.json  the catalog (generated, served as a static file)
+data/venues.json         venue walk graph (generated, bundled)
 scripts/convert-csv.mjs  builds the data files from the catalog CSV
 public/maps/references/  venue floor-plan images shown in the venue plan card
 branding/                logo, brand board, BRAND.md (design system)
@@ -88,7 +92,7 @@ docs/screenshots/        images used in this README
 
 ## Catalog data
 
-`data/sessions.json` and `data/venues.json` are generated from the catalog CSV export and committed, so you do not need the CSV to run the app. To regenerate them:
+`public/data/sessions.json` and `data/venues.json` are generated from the catalog CSV export and committed, so you do not need the CSV to run the app. To regenerate them:
 
 ```bash
 npm run convert-data -- /path/to/reinvent2026_sessions.csv
@@ -100,12 +104,12 @@ The script normalizes venues (for example `TAP Sports Bar (located in MGM Grand)
 
 | Today | Later |
 |---|---|
-| `getSessions()`, `getVenueGraph()` in `lib/data.ts` read bundled JSON | API Gateway + Lambda or AppSync |
+| `getSessions()` in `lib/data.ts` fetches `/data/sessions.json`; `getVenueGraph()` reads bundled JSON | API Gateway + Lambda or AppSync |
 | `parseNaturalLanguage()` in `lib/search.ts` (rules) | Amazon Bedrock endpoint with the same output shape |
 | The paste-in AI step on `/plan` | Direct call using the same prompt and reply contract |
 | `lib/store.ts` saves to `localStorage` | Sync to a backend once accounts exist |
 
-The full catalog JSON (about 2.4 MB) ships in the client bundle today. Serving it from an API with server-side filtering would shrink the first load.
+The catalog is not in the JavaScript bundle: pages fetch `/data/sessions.json` (about 3 MB, 620 KB gzipped) once and cache it. Session pages (`/session/[id]`) are prerendered at build time with their own title and description. Serving the catalog from an API with server-side filtering would shrink it further.
 
 ## Design system
 

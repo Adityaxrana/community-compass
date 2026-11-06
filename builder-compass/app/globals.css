@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -162,8 +160,6 @@ html,
 body {
   background: theme("colors.surface");
   color: theme("colors.ink");
-  font-family: Inter, "Geist Sans", ui-sans-serif, system-ui, -apple-system,
-    "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -171,7 +167,7 @@ body {
 /* Dark mode page background: a slow black-to-blue gradient that drifts and
    rotates. The layers are fixed and animate with transforms only (GPU), so
    nothing repaints while scrolling. body stays transparent so they show. */
-.dark html {
+html.dark {
   background: #01030a; /* fallback + overscroll */
 }
 .dark body {

@@ -43,9 +43,9 @@ const config: Config = {
         "error-fg": "rgb(var(--c-error-fg) / <alpha-value>)",
       },
       fontFamily: {
+        // --font-sans / --font-mono come from next/font in app/layout.tsx
         sans: [
-          "Inter",
-          "Geist Sans",
+          "var(--font-sans)",
           "ui-sans-serif",
           "system-ui",
           "-apple-system",
@@ -54,8 +54,7 @@ const config: Config = {
           "sans-serif",
         ],
         mono: [
-          "Geist Mono",
-          "JetBrains Mono",
+          "var(--font-mono)",
           "ui-monospace",
           "SFMono-Regular",
           "Menlo",

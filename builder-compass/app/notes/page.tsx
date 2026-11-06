@@ -70,6 +70,9 @@ export default function NotesPage() {
   const plan = useCompassStore((s) => s.plan);
   const customItems = useCompassStore((s) => s.customItems);
   const setNote = useCompassStore((s) => s.setNote);
+  const archive = useCompassStore((s) => s.archive);
+  // Sessions removed from the stack whose notes and ratings were kept.
+  const archived = useMemo(() => Object.values(archive), [archive]);
 
   useEffect(() => {
     getSessions()
@@ -120,8 +123,10 @@ export default function NotesPage() {
   const currentItem = current ? planById.get(current.id) : undefined;
 
   const markdown = useMemo(
-    () => (tab === "schedule" ? scheduleToMarkdown(blocks, plan) : reportToMarkdown(plan, sessions)),
-    [tab, blocks, plan, sessions]
+    () => (tab === "schedule"
+        ? scheduleToMarkdown(blocks, plan)
+        : reportToMarkdown([...plan, ...archived], sessions)),
+    [tab, blocks, plan, archived, sessions]
   );
 
   if (failed) {
@@ -314,6 +319,13 @@ export default function NotesPage() {
           />
         </div>
         <div className="space-y-3 p-5">
+          {tab === "report" && archived.length > 0 && (
+            <p className="text-xs text-muted">
+              Includes notes from {archived.length} session{archived.length === 1 ? "" : "s"} you
+              removed from your stack. Add {archived.length === 1 ? "it" : "one"} back to edit
+              those notes; they come back with it.
+            </p>
+          )}
           <div className="flex flex-wrap gap-2">
             <Button variant="secondary" onClick={copyMarkdown}>
               {copied ? <ClipboardCheck size={16} strokeWidth={1.75} aria-hidden /> : <Copy size={16} strokeWidth={1.75} aria-hidden />}

@@ -14,6 +14,7 @@ import {
   autoEligible,
   fitCheck,
   isAcceptableFit,
+  isComfortableFit,
   plannedTitles,
   sessionToBlock,
   titleKey,
@@ -81,6 +82,9 @@ function themeOf(
  * Greedy planner: best-scoring sessions first, skipping anything that overlaps
  * or strands you (not reachable / unknown walk). Plans around the existing
  * stack and never exceeds `maxPerDay` timed sessions per day in total.
+ *
+ * Two passes: the first only accepts sessions whose walks keep the full
+ * 10-minute buffer; the second fills any remaining slots with tight walks.
  */
 export function planWeek(
   sessions: Session[],
@@ -112,14 +116,16 @@ export function planWeek(
 
     const working: Block[] = [...existing];
     const chosen: Session[] = [];
-    for (const { s } of candidates) {
-      if (chosen.length >= remaining) break;
-      if (seenTitles.has(titleKey(s.title))) continue;
-      const block = sessionToBlock(s);
-      if (!isAcceptableFit(fitCheck(block, working, lookup))) continue;
-      working.push(block);
-      chosen.push(s);
-      seenTitles.add(titleKey(s.title));
+    for (const fits of [isComfortableFit, isAcceptableFit]) {
+      for (const { s } of candidates) {
+        if (chosen.length >= remaining) break;
+        if (seenTitles.has(titleKey(s.title))) continue;
+        const block = sessionToBlock(s);
+        if (!fits(fitCheck(block, working, lookup))) continue;
+        working.push(block);
+        chosen.push(s);
+        seenTitles.add(titleKey(s.title));
+      }
     }
 
     const picks: PlannedPick[] = chosen

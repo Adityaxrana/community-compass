@@ -1,7 +1,19 @@
 import type { Metadata } from "next";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/Sidebar";
 import StoreHydrator from "@/components/StoreHydrator";
+import UndoToast from "@/components/UndoToast";
+
+// Self-hosted at build time by next/font: no runtime request to Google, no
+// render-blocking stylesheet, and no layout shift from font swapping.
+const sans = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   icons: {
@@ -31,7 +43,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-screen bg-surface text-ink">
+      <body className={`${sans.variable} ${mono.variable} min-h-screen bg-surface font-sans text-ink`}>
         <StoreHydrator />
         <Sidebar />
         <div className="md:pl-60">
@@ -43,6 +55,7 @@ export default function RootLayout({
             affiliated with or endorsed by Amazon Web Services.
           </footer>
         </div>
+        <UndoToast />
       </body>
     </html>
   );

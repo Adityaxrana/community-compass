@@ -46,28 +46,36 @@ type StopType = "venue" | "hotel" | "stadium";
 type Side = "left" | "right" | "below";
 type Stop = { name: string; label: string; x: number; y: number; w: number; h: number; type: StopType; side: Side };
 
+// Positions follow the real street plan: Las Vegas Blvd runs NNE–SSW; Wynn,
+// Venetian, Caesars Forum (behind the LINQ, on Koval) and MGM Grand are on the
+// east side; Treasure Island and Caesars Palace on the west; Allegiant Stadium
+// is west of I-15. Cross streets keep their order north to south: Spring
+// Mountain / Sands, Flamingo, Tropicana. Not to scale.
 const TOP_DOWN_STOPS: Stop[] = [
-  { name: "Wynn/Encore", label: "Wynn / Encore", x: 450, y: 75, w: 124, h: 92, type: "venue", side: "right" },
-  { name: "Treasure Island", label: "Treasure Island", x: 447, y: 160, w: 100, h: 64, type: "hotel", side: "right" },
-  { name: "Venetian", label: "Venetian", x: 437, y: 266, w: 134, h: 92, type: "venue", side: "left" },
-  { name: "Caesars Forum", label: "Caesars Forum", x: 592, y: 318, w: 112, h: 92, type: "venue", side: "right" },
-  { name: "Caesars Palace", label: "Caesars Palace", x: 428, y: 360, w: 126, h: 92, type: "venue", side: "left" },
-  { name: "MGM Grand", label: "MGM Grand", x: 392, y: 525, w: 134, h: 98, type: "venue", side: "left" },
-  { name: "Allegiant Stadium", label: "Allegiant Stadium", x: 130, y: 505, w: 130, h: 112, type: "stadium", side: "below" },
+  { name: "Wynn/Encore", label: "Wynn / Encore", x: 655, y: 70, w: 110, h: 96, type: "venue", side: "right" },
+  { name: "Treasure Island", label: "Treasure Island", x: 468, y: 195, w: 92, h: 62, type: "hotel", side: "left" },
+  { name: "Venetian", label: "Venetian", x: 618, y: 224, w: 100, h: 80, type: "venue", side: "right" },
+  { name: "Caesars Palace", label: "Caesars Palace", x: 448, y: 278, w: 116, h: 84, type: "venue", side: "left" },
+  { name: "Caesars Forum", label: "Caesars Forum", x: 604, y: 312, w: 88, h: 72, type: "venue", side: "right" },
+  { name: "MGM Grand", label: "MGM Grand", x: 566, y: 455, w: 112, h: 90, type: "venue", side: "right" },
+  { name: "Allegiant Stadium", label: "Allegiant Stadium", x: 128, y: 522, w: 116, h: 92, type: "stadium", side: "below" },
 ];
 
 // Cartographic geometry (Strip, I-15, Koval, cross streets) for the base map.
-const STRIP_PATH = "M 590 -20 C 565 160, 530 300, 498 430 S 468 560, 452 620";
-const KOVAL_PATH = "M 712 -20 C 695 160, 672 320, 652 430 S 626 560, 612 620";
-const I15_PATH = "M 318 -20 C 306 150, 280 330, 252 450 S 226 560, 214 620";
+// Roads run parallel to the Strip (dx/dy = -0.2, i.e. STRIP_TILT); cross
+// streets are perpendicular to it.
+const STRIP_PATH = "M 590 -20 L 462 620";
+const KOVAL_PATH = "M 681 175 L 592 620"; // starts at Sands Ave
+const I15_PATH = "M 330 -20 L 202 620";
 const CROSS_STREETS = [
-  { name: "Spring Mountain Rd", d: "M -20 112 L 980 312", label: 0.1 },
-  { name: "Flamingo Rd", d: "M -20 332 L 980 532", label: 0.1 },
-  { name: "Tropicana Ave", d: "M -20 380 L 980 580", label: 0.1 },
+  { name: "Spring Mountain Rd", d: "M -20 35 L 980 235", label: 0.1 },
+  { name: "Flamingo Rd", d: "M -20 232 L 980 432", label: 0.1 },
+  { name: "Tropicana Ave", d: "M -20 420 L 980 620", label: 0.1 },
 ];
 const PARKS = [
-  "M 214 24 Q 262 -4 338 22 Q 372 56 352 104 Q 300 142 236 116 Q 190 78 214 24 Z",
-  "M 790 90 Q 860 60 930 98 Q 960 150 920 196 Q 850 214 800 170 Q 770 126 790 90 Z",
+  // Wynn Golf Club, east of Wynn
+  "M 790 30 Q 860 6 925 40 Q 950 92 915 140 Q 850 162 800 128 Q 770 80 790 30 Z",
+  "M 120 60 Q 190 40 250 70 Q 262 120 220 150 Q 150 160 118 120 Q 100 90 120 60 Z",
   "M 760 470 Q 812 446 868 474 Q 884 520 846 548 Q 790 556 764 520 Z",
 ];
 
@@ -290,9 +298,9 @@ export default function MapPage() {
                 })}
 
                 <text className="amap-street-label"><textPath href="#amap-strip" startOffset="9%" dominantBaseline="middle">LAS VEGAS BLVD</textPath></text>
-                <text className="amap-street-label"><textPath href="#amap-koval" startOffset="14%" dominantBaseline="middle">KOVAL LN</textPath></text>
+                <text className="amap-street-label"><textPath href="#amap-koval" startOffset="55%" dominantBaseline="middle">KOVAL LN</textPath></text>
                 {CROSS_STREETS.map((street) => <text key={street.name} className="amap-street-label"><textPath href={`#amap-${street.name.replace(/\s/g, "-")}`} startOffset="6%" dominantBaseline="middle">{street.name.toUpperCase()}</textPath></text>)}
-                <text x="196" y="70" className="amap-area-label">WYNN GOLF CLUB</text>
+                <text x="808" y="124" className="amap-area-label">WYNN GOLF CLUB</text>
 
                 {(() => {
                   const from = topDownStop(travelFrom); const to = topDownStop(travelTo);
@@ -364,7 +372,7 @@ export default function MapPage() {
           <div className="flex-1 space-y-3 p-4">
             {selectedSessions.slice(0, 5).map((session) => (
               <Link key={session.id} href={`/session/${encodeURIComponent(session.id)}`} className="block rounded-xl border border-[var(--glass-ring)] bg-canvas/40 p-3 transition hover:border-brand-purple/40 hover:bg-canvas/70">
-                <div className="flex items-center justify-between gap-2 font-mono text-xs text-muted"><span>{rangeLabel(session.start, session.end)}</span><span className="font-semibold text-brand-purple">{session.code}</span></div>
+                <div className="flex items-start justify-between gap-2 font-mono text-xs text-muted"><span className="min-w-0">{dayLabel(session.start)} · {rangeLabel(session.start, session.end)}</span><span className="shrink-0 whitespace-nowrap font-semibold text-brand-purple">{session.code}</span></div>
                 <p className="mt-1 text-sm font-semibold leading-snug text-ink">{session.title}</p>
                 <p className="mt-1 truncate text-xs text-muted">{session.room || session.type}</p>
               </Link>

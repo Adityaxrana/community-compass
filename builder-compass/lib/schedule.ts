@@ -279,6 +279,7 @@ export interface DaySummary {
   blocks: number;
   hours: number;
   issues: number; // blocks with a conflict or an unreachable walk
+  tight: number; // walks that arrive with less than the 10-minute buffer
 }
 
 export function summarizeDays(
@@ -297,8 +298,12 @@ export function summarizeDays(
           fit.arrival?.feasibility === "not-happening")
       );
     }).length;
+    const tight = timed.filter(
+      (b) => fits.get(b.key)?.arrival?.feasibility === "tight"
+    ).length;
     return {
       day,
+      tight,
       blocks: dayBlocks.length,
       hours: Math.round(timed.reduce((s, b) => s + blockHours(b), 0) * 10) / 10,
       issues,
@@ -381,6 +386,13 @@ export function isAcceptableFit(fit: FitResult): boolean {
   return !bad(fit.arrival) && !bad(fit.departure);
 }
 
+/** Acceptable, and every walk around it has the full 10-minute buffer. */
+export function isComfortableFit(fit: FitResult): boolean {
+  if (!isAcceptableFit(fit)) return false;
+  const ok = (r: FeasibilityResult | null) => !r || r.feasibility === "comfortable";
+  return ok(fit.arrival) && ok(fit.departure);
+}
+
 export function suggestForGap(
   gap: Gap,
   sessions: Session[],
@@ -409,18 +421,22 @@ export function suggestForGap(
     const fit = fitCheck(block, blocks, lookup);
     if (!isAcceptableFit(fit)) continue;
 
-    const comfy =
-      (!fit.arrival || fit.arrival.feasibility === "comfortable") &&
-      (!fit.departure || fit.departure.feasibility === "comfortable");
     out.push({
       session,
       fit,
       reasons: reasonsFor(session, prefs),
-      score: scoreSession(session, prefs) + (comfy ? 1 : 0),
+      score: scoreSession(session, prefs),
     });
   }
 
+  // Comfortable walks always rank above tight ones, then by match score.
+  const comfy = (s: Suggestion) => (isComfortableFit(s.fit) ? 1 : 0);
   return out
-    .sort((a, b) => b.score - a.score || a.session.start.localeCompare(b.session.start))
+    .sort(
+      (a, b) =>
+        comfy(b) - comfy(a) ||
+        b.score - a.score ||
+        a.session.start.localeCompare(b.session.start)
+    )
     .slice(0, limit);
 }

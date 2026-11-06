@@ -12,7 +12,7 @@ import {
 import { buttonClass } from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import CompassMark from "@/components/CompassMark";
-import { allSessionsSync } from "@/lib/data";
+import { loadSessions } from "@/lib/data.server";
 import { dateOf } from "@/lib/format";
 
 const FEATURES = [
@@ -49,7 +49,7 @@ const FEATURES = [
 ];
 
 export default function HomePage() {
-  const sessions = allSessionsSync();
+  const sessions = loadSessions();
   const venues = new Set(sessions.map((s) => s.venue)).size;
   const days = new Set(sessions.map((s) => dateOf(s.start))).size;
 

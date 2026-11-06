@@ -16,8 +16,8 @@ async def chat(messages: list[dict[str, str]]) -> str:
                 "model": OLLAMA_MODEL,
                 "messages": messages,
                 "stream": False,
-                # Low temperature keeps the model closer to the notes and less inventive.
-                "options": {"temperature": 0},
+                # Low temperature keeps answers close to the notes without going flat.
+                "options": {"temperature": 0.4},
             },
         )
         response.raise_for_status()

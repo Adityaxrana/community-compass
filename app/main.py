@@ -22,8 +22,8 @@ How to answer:
 - Never mention notes, files, sources, or "general context". Just answer the question.
 - When the reference notes cover the question, build the answer on them and keep their specific details.
 - You may add useful general knowledge to round out the answer, but never contradict the notes.
-- Do not make up specific facts such as prices, opening hours, events or closures. If unsure, say so briefly or suggest checking the official site.
-- If you do not actually know the answer, or the reference notes don't cover it and you are not confident of the facts, reply exactly: "I don't know about that yet." Never guess to fill the gap.
+- For Las Vegas places and activities, name well-known attractions from general knowledge and describe them briefly. Do not state prices, opening hours or closures; suggest checking the official site for those.
+- If you genuinely do not know the answer, reply exactly: "I don't know about that yet." Do not invent names, dates or prices.
 - If the reference notes do not relate to the question, ignore them.
 """
 

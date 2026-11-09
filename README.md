@@ -129,7 +129,8 @@ We're grateful to each contributor for bringing their knowledge, ideas, and skil
 ---
 
 ## 🤝 Why Get Involved
-<img width="2752" height="1536" alt="Gemini_Generated_Image_8llcd28llcd28llc" src="https://github.com/user-attachments/assets/bc88d5af-7cea-4e1e-a76e-643457fb6476" />
+<img width="1024" height="572" alt="62f6980f-fbed-48c2-a275-678cb85c7566" src="https://github.com/user-attachments/assets/8f87d3e1-d28b-4455-8c53-b817a8e5e2c7" />
+
 
 We're interested in connecting with people who care about community-powered technology and want to help explore what's possible.
 

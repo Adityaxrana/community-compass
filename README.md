@@ -119,15 +119,17 @@ The project brings together current and returning grant recipients and alumni ad
 ### Founding Contributors
 
 - **Vimal Tatiya** — Cloud Integrations & Backend Development
-- **DHYEY DESAI** — Frontend & Backend Development, Testing
+- **DHYEY DESAI** — Frontend & Backend Development, RAG & Testing
 - **Aditya Rana** — Infrastructure Setup & Backend Development
+- **Dotbion** - RAG Implementation 
 
 We're grateful to each contributor for bringing their knowledge, ideas, and skills to the project. The product vision is being explored collaboratively, with each contributor helping shape what the initial experience can become.
 
 
 ---
 
-## 🤝 Get Involved
+## 🤝 Why Get Involved
+<img width="2752" height="1536" alt="Gemini_Generated_Image_8llcd28llcd28llc" src="https://github.com/user-attachments/assets/bc88d5af-7cea-4e1e-a76e-643457fb6476" />
 
 We're interested in connecting with people who care about community-powered technology and want to help explore what's possible.
 

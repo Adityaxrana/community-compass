@@ -13,9 +13,9 @@ Community Compass explores how AI can help communities preserve, access, and bui
 
 ## 🌍 Where It Started
 
-Community Compass originated from an idea by **Quiana Berry**, inspired by her experience within the AWS re:Invent Builders Grant community.
+Community Compass originated from an idea by **Quiana Berry**, inspired by her experience within years of global community building at Afro Adventurer and Red Hat.
 
-Through her participation in the community, Quiana identified an opportunity to address a recurring challenge: grantees frequently had similar questions about navigating the program, accessing resources, and making the most of their conference experience. Meanwhile, experienced alumni advisors and returning participants held valuable knowledge that was repeatedly requested and often concentrated among a small number of veteran community members.
+Through her recent participation in the AWS re:Invent Builders Grant community, Quiana identified an opportunity to address a recurring challenge: grantees frequently had similar questions about navigating the program, accessing resources, and making the most of their conference experience. Meanwhile, experienced alumni advisors and returning participants held valuable knowledge that was repeatedly requested and often concentrated among a small number of veteran community members.
 
 Quiana proposed an AI-powered community advising tool to make this collective knowledge more accessible, preserve institutional memory, and reduce the burden of repetitive questions—giving advisors more time to focus on meaningful mentorship and human connection.
 

@@ -1,7 +1,7 @@
 """Community Compass chat API.
 
-Run locally:
-    uvicorn app.main:app --reload --port 3001
+Run locally from the backend/ folder:
+    uvicorn app.main:app --reload --port 8000
 """
 
 import httpx

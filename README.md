@@ -45,6 +45,8 @@ We believe AI can help address these challenges without replacing the people and
 ---
 
 ## 🚀 Our First Use Case: The AWS Builders Grant Community
+<img width="2752" height="1536" alt="Gemini_Generated_Image_tkcldmtkcldmtkcl" src="https://github.com/user-attachments/assets/3774d30f-e4e2-4c7d-8954-9580968debb2" />
+
 
 Our starting point is the community that inspired the idea: current and returning AWS Builders Grant recipients and alumni advisors.
 

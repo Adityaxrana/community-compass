@@ -13,9 +13,9 @@ Community Compass explores how AI can help communities preserve, access, and bui
 
 ## 🌍 Where It Started
 
-Community Compass originated from an idea by **Quiana Berry**, inspired by her experience within the AWS re:Invent Builders Grant community.
+Community Compass originated from an idea by **Quiana Berry**, inspired by her experience within years of global community building at Afro Adventurer and Red Hat.
 
-Through her participation in the community, Quiana identified an opportunity to address a recurring challenge: grantees frequently had similar questions about navigating the program, accessing resources, and making the most of their conference experience. Meanwhile, experienced alumni advisors and returning participants held valuable knowledge that was repeatedly requested and often concentrated among a small number of veteran community members.
+Through her recent participation in the AWS re:Invent Builders Grant community, Quiana identified an opportunity to address a recurring challenge: grantees frequently had similar questions about navigating the program, accessing resources, and making the most of their conference experience. Meanwhile, experienced alumni advisors and returning participants held valuable knowledge that was repeatedly requested and often concentrated among a small number of veteran community members.
 
 Quiana proposed an AI-powered community advising tool to make this collective knowledge more accessible, preserve institutional memory, and reduce the burden of repetitive questions—giving advisors more time to focus on meaningful mentorship and human connection.
 
@@ -45,6 +45,8 @@ We believe AI can help address these challenges without replacing the people and
 ---
 
 ## 🚀 Our First Use Case: The AWS Builders Grant Community
+<img width="2752" height="1536" alt="Gemini_Generated_Image_tkcldmtkcldmtkcl" src="https://github.com/user-attachments/assets/3774d30f-e4e2-4c7d-8954-9580968debb2" />
+
 
 Our starting point is the community that inspired the idea: current and returning AWS Builders Grant recipients and alumni advisors.
 
@@ -119,15 +121,18 @@ The project brings together current and returning grant recipients and alumni ad
 ### Founding Contributors
 
 - **Vimal Tatiya** — Cloud Integrations & Backend Development
-- **DHYEY DESAI** — Frontend & Backend Development, Testing
+- **DHYEY DESAI** — Frontend & Backend Development, RAG & Testing
 - **Aditya Rana** — Infrastructure Setup & Backend Development
+- **Dotbion** - RAG Implementation 
 
 We're grateful to each contributor for bringing their knowledge, ideas, and skills to the project. The product vision is being explored collaboratively, with each contributor helping shape what the initial experience can become.
 
 
 ---
 
-## 🤝 Get Involved
+## 🤝 Why Get Involved
+<img width="1024" height="572" alt="62f6980f-fbed-48c2-a275-678cb85c7566" src="https://github.com/user-attachments/assets/8f87d3e1-d28b-4455-8c53-b817a8e5e2c7" />
+
 
 We're interested in connecting with people who care about community-powered technology and want to help explore what's possible.
 
